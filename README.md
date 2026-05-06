@@ -1,8 +1,8 @@
-# WhisperBox 🔐
+# Confession Box 🔐
 
 > End-to-end encrypted messaging. The server is architecturally blind — it stores and forwards only encrypted blobs. All cryptographic operations happen exclusively in the browser.
 
-**Live Demo:** _[your-deployment-url]_  
+**Live Demo:** https://confession-box-nu.vercel.app/ 
 **Stack:** Next.js 14 · Web Crypto API · WebSocket · Tailwind CSS · TypeScript
 
 ---
