@@ -1,5 +1,5 @@
 // ============================================================
-// WhisperBox — In-Memory Private Key Store
+// Confession Box — In-Memory Private Key Store
 //
 // The RSA private key NEVER touches disk, localStorage, or
 // sessionStorage. It lives only in this module-level variable

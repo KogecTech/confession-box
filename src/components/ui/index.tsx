@@ -1,39 +1,48 @@
 'use client';
 
 // ── Spinner ───────────────────────────────────────────────────
-export function Spinner({ size = 20, color = '#6c63ff' }: { size?: number; color?: string }) {
+export function Spinner({ size = 20, className = '' }: { size?: number; className?: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className="animate-spin" style={{ minWidth: size }}>
-      <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.1)" strokeWidth="2.5" />
-      <path d="M12 2a10 10 0 0 1 10 10" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={`animate-spin ${className}`} style={{ minWidth: size }}>
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity="0.1" strokeWidth="3" />
+      <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
     </svg>
   );
 }
 
 // ── Avatar ────────────────────────────────────────────────────
 const AVATAR_COLORS = [
-  ['#6c63ff','#4f46cc'],
-  ['#f472b6','#db2777'],
-  ['#34d399','#059669'],
-  ['#fb923c','#ea580c'],
-  ['#60a5fa','#2563eb'],
-  ['#a78bfa','#7c3aed'],
-  ['#f87171','#dc2626'],
+  ['hsl(258 89% 66%)', 'hsl(258 89% 50%)'], // Primary Purple
+  ['hsl(330 81% 60%)', 'hsl(330 81% 45%)'], // Pink
+  ['hsl(160 84% 39%)', 'hsl(160 84% 30%)'], // Emerald
+  ['hsl(30 93% 53%)',  'hsl(30 93% 40%)'],  // Orange
+  ['hsl(217 91% 60%)', 'hsl(217 91% 45%)'], // Blue
+  ['hsl(271 91% 65%)', 'hsl(271 91% 50%)'], // Violet
+  ['hsl(0 84% 60%)',   'hsl(0 84% 45%)'],   // Red
 ];
 
-export function Avatar({ name, size = 40 }: { name: string; size?: number }) {
-  const initials = name.split(' ').map((w) => w[0]).join('').toUpperCase().slice(0, 2);
-  const [from, to] = AVATAR_COLORS[name.charCodeAt(0) % AVATAR_COLORS.length];
-  const fontSize = Math.round(size * 0.35);
+export function Avatar({ name, size = 40, className = '' }: { name: string; size?: number; className?: string }) {
+  const initials = name
+    .split(' ')
+    .map((w) => w[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
+    
+  const colorIndex = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % AVATAR_COLORS.length;
+  const [from, to] = AVATAR_COLORS[colorIndex];
+  const fontSize = Math.round(size * 0.4);
 
   return (
     <div
       style={{
-        width: size, height: size, minWidth: size,
+        width: size, 
+        height: size, 
+        minWidth: size,
         background: `linear-gradient(135deg, ${from}, ${to})`,
         fontSize,
       }}
-      className="rounded-full flex items-center justify-center font-semibold text-white select-none shadow-sm"
+      className={`rounded-full flex items-center justify-center font-bold text-white select-none shadow-lg shadow-black/20 ${className}`}
     >
       {initials}
     </div>
@@ -41,12 +50,14 @@ export function Avatar({ name, size = 40 }: { name: string; size?: number }) {
 }
 
 // ── Online Badge ─────────────────────────────────────────────
-export function Badge({ online }: { online: boolean }) {
+export function Badge({ online, size = 12 }: { online: boolean; size?: number }) {
   return (
-    <span
-      style={{ width: 11, height: 11 }}
-      className={`rounded-full border-2 border-[#0d0d0f] shrink-0 transition-colors duration-300 ${
-        online ? 'bg-[#3ddc84]' : 'bg-[#55556a]'
+    <div
+      style={{ width: size, height: size }}
+      className={`rounded-full border-2 border-background shrink-0 transition-all duration-500 shadow-sm ${
+        online 
+          ? 'bg-[#3ddc84] scale-100' 
+          : 'bg-muted-foreground/30 scale-90'
       }`}
     />
   );

@@ -1,8 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Avatar } from '../ui/Avatar';
-import { Badge } from '../ui/Badge';
+import { Avatar, Badge } from '../ui';
 import type { Conversation } from '../../types';
 
 interface Props {
@@ -28,32 +27,40 @@ export function ConversationItem({ conversation, isActive, isOnline }: Props) {
     <Link
       href={`/conversations/${conversation.user_id}`}
       className={`
-        flex items-center gap-3 px-4 py-3.5 cursor-pointer tap transition-colors duration-150
+        relative flex items-center gap-3 px-4 py-4 cursor-pointer tap transition-all duration-200
         ${isActive
-          ? 'bg-[#6c63ff]/10 border-l-2 border-[#6c63ff]'
-          : 'hover:bg-[#1e1e23] border-l-2 border-transparent'
+          ? 'bg-primary/10'
+          : 'hover:bg-secondary/50'
         }
       `}
     >
+      {/* Active indicator bar */}
+      {isActive && (
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full shadow-[0_0_12px_rgba(108,99,255,0.4)]" />
+      )}
+
       <div className="relative shrink-0">
-        <Avatar name={conversation.display_name} size={48} />
-        <span className="absolute bottom-0 right-0">
-          <Badge online={isOnline} />
-        </span>
+        <Avatar name={conversation.display_name} size={52} />
+        <div className="absolute -bottom-0.5 -right-0.5 ring-2 ring-background rounded-full">
+          <Badge online={isOnline} size={13} />
+        </div>
       </div>
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2">
-          <p className={`font-medium truncate ${isActive ? 'text-[#f0f0f5]' : 'text-[#e0e0ea]'}`}>
+          <p className={`font-semibold truncate text-[15.5px] ${isActive ? 'text-foreground' : 'text-foreground/90'}`}>
             {conversation.display_name}
           </p>
-          <span className="text-[11px] text-[#55556a] shrink-0">
+          <span className="text-[11px] font-medium text-muted-foreground shrink-0 tabular-nums">
             {timeAgo(conversation.last_message_at)}
           </span>
         </div>
-        <p className="text-sm text-[#55556a] truncate mt-0.5">
-          @{conversation.username}
-        </p>
+        <div className="flex items-center justify-between gap-2 mt-0.5">
+          <p className="text-sm text-muted-foreground truncate">
+            @{conversation.username}
+          </p>
+          {/* Unread dot placeholder or something if needed, but for now just the username */}
+        </div>
       </div>
     </Link>
   );

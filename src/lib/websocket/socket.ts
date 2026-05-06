@@ -1,5 +1,5 @@
 // ============================================================
-// WhisperBox — WebSocket Manager
+// Confession Box — WebSocket Manager
 //
 // Single shared connection. Handles:
 //   - Connect / disconnect

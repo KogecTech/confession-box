@@ -1,5 +1,5 @@
 // ============================================================
-// WhisperBox — Base Fetch Client
+// Confession Box — Base Fetch Client
 // Attaches Authorization header, handles 401 by attempting
 // token refresh, and retries the original request once.
 // ============================================================

@@ -1,5 +1,5 @@
 // ============================================================
-// WhisperBox — Key Management
+// Confession Box — Key Management
 //
 // Strategy: We derive an AES-GCM key (not AES-KW) from the user's
 // password via PBKDF2. We then manually export the RSA private key

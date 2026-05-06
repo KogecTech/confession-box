@@ -1,7 +1,7 @@
 'use client';
 
 // ============================================================
-// WhisperBox — AuthContext
+// Confession Box — AuthContext
 // Manages: currentUser, accessToken (memory only), isAuthenticated
 // Coordinates login/register crypto flows + token refresh scheduling.
 // ============================================================

@@ -36,22 +36,22 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <WebSocketProvider>
-      <div className="flex h-dvh overflow-hidden bg-[#0d0d0f]">
+      <div className="flex h-dvh overflow-hidden bg-background text-foreground selection:bg-primary/30 selection:text-primary-foreground">
 
         {/* Sidebar — full width on mobile when NOT in conversation */}
-        <div className={`
-          flex-col shrink-0 border-r border-[#2a2a33] bg-[#0d0d0f]
+        <aside className={`
+          flex-col shrink-0 border-r border-border/50 bg-card/30 backdrop-blur-xl transition-all duration-300 ease-in-out
           ${isInConversation
-            ? 'hidden md:flex md:w-[340px] lg:w-[360px]'
-            : 'flex w-full md:w-[340px] lg:w-[360px]'
+            ? 'hidden md:flex md:w-[340px] lg:w-[380px]'
+            : 'flex w-full md:w-[340px] lg:w-[380px]'
           }
         `}>
           <ConversationList />
-        </div>
+        </aside>
 
         {/* Main panel — full width on mobile when IN conversation */}
         <main className={`
-          flex-col min-w-0 flex-1 overflow-hidden
+          flex-col min-w-0 flex-1 overflow-hidden transition-all duration-300 ease-in-out
           ${isInConversation ? 'flex' : 'hidden md:flex'}
         `}>
           {children}

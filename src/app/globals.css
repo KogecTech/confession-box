@@ -1,91 +1,115 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
-@import "tailwindcss/preflight";
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
-  --bg:           #0d0d0f;
-  --surface:      #17171a;
-  --surface-el:   #1e1e23;
-  --surface-high: #26262d;
-  --border:       #2a2a33;
-  --border-light: #333340;
-  --accent:       #6c63ff;
-  --accent-2:     #5a52e0;
-  --accent-glow:  rgba(108,99,255,0.18);
-  --sent-from:    #6c63ff;
-  --sent-to:      #4f46cc;
-  --received:     #1e1e23;
-  --text-1:       #f0f0f5;
-  --text-2:       #9090a8;
-  --text-3:       #55556a;
-  --online:       #3ddc84;
-  --error:        #ff4f4f;
-  --warn:         #f59e0b;
+  --background: 240 10% 10%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 13%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 10%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 258 89% 66%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 4% 19%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 4% 22%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 258 89% 66%;
+  --accent-foreground: 0 0% 98%;
+  --border: 240 4% 22%;
+  --input: 240 4% 22%;
+  --ring: 258 89% 66%;
+
+  --font-outfit: 'Outfit', sans-serif;
+  
+  --online: 145 76% 55%;
+  --error: 0 100% 65%;
+  --warn: 38 92% 50%;
+  
+  --sent: 258 89% 66%;
+  --received: 240 4% 12%;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
 
-html { height: 100%; overflow: hidden; }
+html { 
+  height: 100%; 
+  overflow: hidden; 
+  background: hsl(var(--background));
+}
 
 body {
   height: 100%;
   overflow: hidden;
-  background: var(--bg);
-  color: var(--text-1);
-  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-outfit);
   font-size: 15px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
 /* Scrollbars */
-::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+::-webkit-scrollbar-thumb { 
+  background: hsl(var(--muted)); 
+  border-radius: 99px; 
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
 
 /* Skeleton shimmer */
 @keyframes shimmer {
   0%   { background-position: -600px 0; }
   100% { background-position: 600px 0; }
 }
+
 .skeleton {
   background: linear-gradient(90deg,
-    var(--surface) 0%,
-    var(--surface-el) 40%,
-    var(--surface-high) 60%,
-    var(--surface) 100%
+    hsl(var(--card)) 0%,
+    hsl(var(--muted)) 40%,
+    hsl(var(--muted-foreground) / 0.2) 60%,
+    hsl(var(--card)) 100%
   );
   background-size: 1200px 100%;
   animation: shimmer 1.6s ease-in-out infinite;
-  border-radius: 10px;
+  border-radius: 12px;
 }
-
-/* Bubble entry */
-@keyframes bubbleIn {
-  from { opacity: 0; transform: translateY(8px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-.bubble-in { animation: bubbleIn 0.2s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-
-/* Fade in */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.fade-in { animation: fadeIn 0.25s ease forwards; }
-
-/* Slide up from bottom (mobile panel) */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(100%); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.slide-up { animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1) forwards; }
 
 /* Tap feedback */
-.tap { transition: transform 0.1s, opacity 0.1s; }
-.tap:active { transform: scale(0.96); opacity: 0.75; }
+.tap { 
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.1s; 
+}
+.tap:active { 
+  transform: scale(0.97); 
+  opacity: 0.8; 
+}
 
-/* Safe area for mobile notch/home indicator */
-.safe-top    { padding-top: env(safe-area-inset-top, 0px); }
-.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 16px); }
+/* Safe areas */
+.safe-top { 
+  padding-top: env(safe-area-inset-top, 0px); 
+}
+.safe-bottom { 
+  padding-bottom: env(safe-area-inset-bottom, 16px); 
+}
+
+/* Glass effect */
+.glass {
+  background: hsl(var(--background) / 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-card {
+  background: hsl(var(--card) / 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid hsl(var(--border) / 0.5);
+}

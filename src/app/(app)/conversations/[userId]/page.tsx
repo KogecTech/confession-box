@@ -80,42 +80,44 @@ export default function ConversationPage({ params }: Props) {
   const isOnline = !!presence[userId];
 
   return (
-    <div className="flex flex-col h-dvh overflow-hidden">
+    <div className="flex flex-col h-dvh overflow-hidden bg-background">
       {/* Header */}
-      <div
-        className="flex items-center gap-3 px-3 sm:px-4 py-3 shrink-0"
-        style={{ borderBottom: '1px solid #2a2a33', background: '#0d0d0f' }}
-      >
+      <header className="sticky top-0 z-20 flex items-center gap-3 px-4 py-3 border-b border-border/50 glass-card">
         {/* Back — mobile only */}
         <button
           onClick={() => router.push('/inbox')}
-          className="w-9 h-9 rounded-xl flex items-center justify-center tap text-[#9090a8] hover:text-[#f0f0f5] transition-colors md:hidden shrink-0"
-          style={{ background: '#1e1e23' }}
+          className="w-10 h-10 rounded-xl flex items-center justify-center tap text-muted-foreground hover:text-foreground hover:bg-secondary/80 md:hidden shrink-0 transition-all duration-200"
           aria-label="Back"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5M12 5l-7 7 7 7" />
           </svg>
         </button>
 
         <div className="relative shrink-0">
-          <Avatar name={recipientName} size={40} />
-          <span className="absolute bottom-0 right-0"><Badge online={isOnline} /></span>
+          <Avatar name={recipientName} size={44} className="ring-2 ring-primary/20 shadow-lg" />
+          <div className="absolute -bottom-0.5 -right-0.5">
+            <Badge online={isOnline} size={13} />
+          </div>
         </div>
 
         <div className="flex-1 min-w-0">
-          <p className="font-semibold text-[#f0f0f5] text-[15px] truncate">{recipientName}</p>
-          <div className="flex items-center gap-1.5">
-            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${isOnline ? 'bg-[#3ddc84]' : 'bg-[#55556a]'}`} />
-            <p className="text-xs text-[#55556a] truncate">
-              {isOnline ? 'Online' : 'Offline'}
-              {status !== 'connected' && ` · ${status === 'reconnecting' ? 'Reconnecting…' : 'Connecting…'}`}
+          <h2 className="font-bold text-foreground text-[16px] leading-tight truncate">{recipientName}</h2>
+          <div className="flex items-center gap-1.5 mt-0.5">
+            <div className={`w-2 h-2 rounded-full shrink-0 ${isOnline ? 'bg-[#3ddc84] shadow-[0_0_8px_rgba(61,220,132,0.4)]' : 'bg-muted-foreground/40'}`} />
+            <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground/70 truncate">
+              {isOnline ? 'Active Now' : 'Offline'}
+              {status !== 'connected' && (
+                 <span className="ml-1 text-primary animate-pulse">
+                   · {status === 'reconnecting' ? 'Reconnecting…' : 'Connecting…'}
+                 </span>
+              )}
             </p>
           </div>
         </div>
 
         <EncryptionBadge compact />
-      </div>
+      </header>
 
       {/* Messages — fills remaining space */}
       <MessageThread

@@ -45,71 +45,81 @@ export function NewConversationSearch({ onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col justify-end md:items-center md:justify-center"
-      style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
+      className="fixed inset-0 z-50 flex flex-col justify-end md:items-center md:justify-center p-0 md:p-6"
+      style={{ background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(12px)' }}
       onClick={onClose}
     >
       <div
-        className="w-full md:max-w-md rounded-t-[28px] md:rounded-3xl overflow-hidden slide-up md:fade-in"
-        style={{ background: '#17171a', border: '1px solid #2a2a33' }}
+        className="w-full md:max-w-md rounded-t-[32px] md:rounded-[32px] overflow-hidden animate-slide-up md:animate-fade-in glass-card shadow-2xl border-t md:border border-border/50"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Handle bar (mobile) */}
         <div className="flex justify-center pt-3 pb-1 md:hidden">
-          <div className="w-10 h-1 rounded-full bg-[#2a2a33]" />
+          <div className="w-12 h-1.5 rounded-full bg-border" />
         </div>
 
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4">
-          <h3 className="text-base font-semibold text-[#f0f0f5]">New message</h3>
-          <button onClick={onClose} className="w-8 h-8 rounded-xl flex items-center justify-center tap text-[#55556a] hover:text-[#f0f0f5] transition-colors" style={{ background: '#1e1e23' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+        <div className="flex items-center justify-between px-6 py-5">
+          <h3 className="text-lg font-bold text-foreground">New conversation</h3>
+          <button 
+            onClick={onClose} 
+            className="w-10 h-10 rounded-xl flex items-center justify-center tap text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-all duration-200"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
         </div>
 
         {/* Search input */}
-        <div className="px-5 pb-3">
-          <div className="flex items-center gap-3 px-4 py-3 rounded-2xl" style={{ background: '#1e1e23', border: '1px solid #2a2a33' }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#55556a" strokeWidth="2" strokeLinecap="round" className="shrink-0">
+        <div className="px-6 pb-4">
+          <div className="flex items-center gap-3 px-4 py-3.5 rounded-[20px] bg-secondary border border-border/40 focus-within:border-primary/50 focus-within:ring-4 focus-within:ring-primary/10 transition-all duration-300">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="shrink-0 text-muted-foreground/60">
               <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
             </svg>
             <input
               ref={inputRef}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by name or username…"
-              className="flex-1 bg-transparent text-[15px] text-[#f0f0f5] placeholder:text-[#55556a] outline-none"
+              placeholder="Name or @username…"
+              className="flex-1 bg-transparent text-[15px] font-medium text-foreground placeholder:text-muted-foreground/40 outline-none"
             />
-            {isSearching && <Spinner size={16} />}
+            {isSearching && <Spinner size={18} className="text-primary" />}
           </div>
         </div>
 
         {/* Results */}
-        <div className="overflow-y-auto max-h-72 px-3 pb-6 safe-bottom">
+        <div className="overflow-y-auto max-h-[60vh] md:max-h-96 px-3 pb-6 safe-bottom">
           {!isSearching && query && results.length === 0 && (
-            <p className="text-center text-[#55556a] text-sm py-8">No users found for &quot;{query}&quot;</p>
+            <div className="py-12 text-center animate-fade-in">
+              <p className="text-muted-foreground/80 font-medium italic">No matches for &quot;{query}&quot;</p>
+            </div>
           )}
           {!query && (
-            <p className="text-center text-[#55556a] text-sm py-8">Type to search for people</p>
+            <div className="py-12 text-center animate-fade-in opacity-40">
+              <p className="text-muted-foreground font-semibold">Search for anyone on Confession Box</p>
+            </div>
           )}
-          {results.map((user) => (
-            <button
-              key={user.id}
-              onClick={() => handleSelect(user.id)}
-              className="w-full flex items-center gap-3 px-3 py-3 rounded-2xl tap hover:bg-[#1e1e23] transition-colors text-left"
-            >
-              <Avatar name={user.display_name} size={44} />
-              <div>
-                <p className="text-[15px] font-medium text-[#f0f0f5]">{user.display_name}</p>
-                <p className="text-sm text-[#55556a]">@{user.username}</p>
-              </div>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#55556a" strokeWidth="2" strokeLinecap="round" className="ml-auto">
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-            </button>
-          ))}
+          <div className="flex flex-col gap-1">
+            {results.map((user) => (
+              <button
+                key={user.id}
+                onClick={() => handleSelect(user.id)}
+                className="w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl tap hover:bg-secondary/60 transition-all duration-200 text-left group"
+              >
+                <Avatar name={user.display_name} size={48} className="group-hover:scale-105 transition-transform" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-[16px] font-bold text-foreground truncate">{user.display_name}</p>
+                  <p className="text-sm font-medium text-muted-foreground/70 truncate">@{user.username}</p>
+                </div>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-secondary opacity-0 group-hover:opacity-100 transition-all duration-200">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="text-primary">
+                    <path d="M9 18l6-6-6-6" />
+                  </svg>
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

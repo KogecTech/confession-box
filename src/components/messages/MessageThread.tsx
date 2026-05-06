@@ -26,8 +26,8 @@ function DateDivider({ date }: { date: string }) {
   })();
 
   return (
-    <div className="flex items-center justify-center my-4">
-      <span className="text-[11px] text-[#55556a] px-3 py-1 rounded-full" style={{ background: '#1e1e23', border: '1px solid #2a2a33' }}>
+    <div className="flex items-center justify-center my-6 sticky top-2 z-10">
+      <span className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/80 px-4 py-1.5 rounded-full glass-card shadow-sm">
         {label}
       </span>
     </div>
@@ -36,10 +36,10 @@ function DateDivider({ date }: { date: string }) {
 
 function MessageSkeleton() {
   return (
-    <div className="flex flex-col gap-3 px-4 py-3">
+    <div className="flex flex-col gap-4 px-4 py-4">
       {[65, 45, 72, 50, 60, 40].map((w, i) => (
         <div key={i} className={`flex ${i % 3 === 2 ? 'justify-end' : 'justify-start'}`}>
-          <div className="skeleton rounded-[20px]" style={{ width: `${w}%`, height: 42 }} />
+          <div className="skeleton rounded-2xl" style={{ width: `${w}%`, height: 48 }} />
         </div>
       ))}
     </div>
@@ -99,30 +99,32 @@ export function MessageThread({ messages, currentUserId, isLoading, isLoadingMor
   const groups = groupByDate(messages);
 
   return (
-    <div ref={containerRef} className="flex-1 overflow-y-auto px-3 sm:px-4">
-      <div ref={topRef} className="h-1" />
+    <div ref={containerRef} className="flex-1 overflow-y-auto scrollbar-hide">
+      <div ref={topRef} className="h-2" />
 
       {isLoadingMore && (
-        <div className="flex justify-center py-4">
-          <Spinner size={18} />
+        <div className="flex justify-center py-6">
+          <Spinner size={22} className="text-primary/60" />
         </div>
       )}
 
       {isLoading ? (
         <MessageSkeleton />
       ) : messages.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-full min-h-[200px] gap-2 py-16">
-          <div className="w-14 h-14 rounded-3xl flex items-center justify-center" style={{ background: '#1e1e23' }}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#55556a" strokeWidth="1.5">
+        <div className="flex flex-col items-center justify-center h-full min-h-[300px] gap-6 py-16 animate-fade-in">
+          <div className="w-16 h-16 rounded-[28px] flex items-center justify-center bg-secondary border border-border/50 shadow-inner">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-muted-foreground/40">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
           </div>
-          <p className="text-[#9090a8] text-sm font-medium">No messages yet</p>
-          <p className="text-[#55556a] text-xs">Say something 👋</p>
+          <div className="text-center">
+            <p className="text-foreground/80 text-base font-bold">No messages here yet</p>
+            <p className="text-muted-foreground text-sm mt-1">Send a message to start the conversation.</p>
+          </div>
         </div>
       ) : (
         groups.map((group) => (
-          <div key={group.date}>
+          <div key={group.date} className="flex flex-col">
             <DateDivider date={group.messages[0].created_at} />
             {group.messages.map((msg) => (
               <MessageBubble
@@ -135,7 +137,7 @@ export function MessageThread({ messages, currentUserId, isLoading, isLoadingMor
         ))
       )}
 
-      <div ref={bottomRef} className="h-4" />
+      <div ref={bottomRef} className="h-6" />
     </div>
   );
 }

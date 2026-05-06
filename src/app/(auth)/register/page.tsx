@@ -3,34 +3,42 @@ import { RegisterForm } from '../../../components/auth/RegisterForm';
 
 export default function RegisterPage() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center px-5 bg-[#0d0d0f]">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#6c63ff]/5 rounded-full blur-[120px] pointer-events-none" />
+    <main className="min-h-screen flex flex-col items-center justify-center px-6 bg-background relative overflow-hidden">
+      {/* Dynamic Background Elements */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px] animate-pulse pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="w-full max-w-[360px] relative z-10">
-        <div className="flex flex-col items-center gap-4 mb-10">
-          <div className="w-[72px] h-[72px] rounded-[22px] flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #6c63ff22, #6c63ff11)', border: '1px solid #6c63ff33', boxShadow: '0 0 40px #6c63ff18' }}>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l4.93-1.37C8.42 21.5 10.15 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" fill="#6c63ff" opacity="0.2"/>
-              <path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l4.93-1.37C8.42 21.5 10.15 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" stroke="#6c63ff" strokeWidth="1.5" fill="none"/>
-              <path d="M12 8v8M8 12h8" stroke="#6c63ff" strokeWidth="1.5" strokeLinecap="round"/>
+      <div className="w-full max-w-[420px] relative z-10 animate-fade-in">
+        {/* Logo */}
+        <div className="flex flex-col items-center gap-5 mb-12">
+          <div className="w-20 h-20 rounded-[30px] flex items-center justify-center bg-secondary/30 border border-primary/20 shadow-[0_0_50px_rgba(108,99,255,0.15)] backdrop-blur-md">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" className="text-primary">
+              <path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l4.93-1.37C8.42 21.5 10.15 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" fill="currentColor" fillOpacity="0.15"/>
+              <path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l4.93-1.37C8.42 21.5 10.15 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" stroke="currentColor" strokeWidth="2" fill="none"/>
+              <path d="M12 8v8M8 12h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           </div>
           <div className="text-center">
-            <h1 className="text-2xl font-semibold text-[#f0f0f5] tracking-tight">WhisperBox</h1>
-            <p className="text-sm text-[#55556a] mt-1">Your keys. Your messages.</p>
+            <h1 className="text-3xl font-bold text-foreground tracking-tighter">Confession Box</h1>
+            <div className="flex items-center gap-2 mt-2 justify-center">
+               <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+               <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">Secure Onboarding</p>
+            </div>
           </div>
         </div>
 
-        <div className="rounded-3xl p-6" style={{ background: '#17171a', border: '1px solid #2a2a33' }}>
-          <h2 className="text-lg font-semibold text-[#f0f0f5] mb-1">Create account</h2>
-          <p className="text-sm text-[#55556a] mb-6">Keys generated on your device — we never see them</p>
+        {/* Card */}
+        <div className="rounded-[32px] p-8 glass-card shadow-2xl shadow-black/20">
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-foreground">Create Secure Account</h2>
+            <p className="text-[13px] font-medium text-muted-foreground mt-1">Your cryptographic keys will be generated locally</p>
+          </div>
           <RegisterForm />
         </div>
 
-        <p className="text-center text-sm text-[#55556a] mt-6">
-          Have an account?{' '}
-          <Link href="/login" className="text-[#6c63ff] font-medium hover:text-[#7a72ff] transition-colors">
+        <p className="text-center text-[14px] text-muted-foreground mt-8">
+          Already have an account?{' '}
+          <Link href="/login" className="text-primary font-bold hover:brightness-125 transition-all">
             Sign in
           </Link>
         </p>

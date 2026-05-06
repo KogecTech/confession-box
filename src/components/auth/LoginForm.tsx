@@ -48,11 +48,16 @@ export function LoginForm() {
         required
       />
       {error && (
-        <div className="bg-[#ef4444]/10 border border-[#ef4444]/20 rounded-xl px-4 py-3 text-sm text-[#ef4444]">
-          {error}
+        <div className="bg-red-500/10 border border-red-500/20 rounded-2xl px-4 py-3 text-sm text-red-500 font-medium animate-shake">
+          <div className="flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            {error}
+          </div>
         </div>
       )}
-      <Button type="submit" isLoading={isLoading} className="w-full mt-1">
+      <Button type="submit" isLoading={isLoading} className="w-full mt-2 h-12 text-base shadow-xl">
         Sign in
       </Button>
     </form>

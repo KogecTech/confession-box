@@ -1,5 +1,5 @@
 // ============================================================
-// WhisperBox — Message Decryption
+// Confession Box — Message Decryption
 //
 // Flow for RECEIVED messages:
 //   1. Decrypt `encryptedKey` with our RSA private key → raw AES key bytes

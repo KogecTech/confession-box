@@ -1,5 +1,5 @@
 // ============================================================
-// WhisperBox — Message Encryption
+// Confession Box — Message Encryption
 //
 // Hybrid encryption flow:
 //   1. Generate a fresh random AES-GCM 256-bit key for this message
