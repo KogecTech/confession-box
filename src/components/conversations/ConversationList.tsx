@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { ConversationItem } from './ConversationItem';
 import { NewConversationSearch } from './NewConversationSearch';
@@ -23,9 +23,14 @@ function SkeletonRow() {
 
 export function ConversationList() {
   const { user, logout } = useAuth();
-  const { conversations, isLoading } = useConversations();
-  const presence = usePresence();
+  const { conversations, isLoading, refresh } = useConversations();
   const pathname = usePathname();
+
+  useEffect(() => {
+    refresh();
+  }, [pathname, refresh]);
+
+  const presence = usePresence();
   const [showSearch, setShowSearch] = useState(false);
 
   const activeUserId = pathname.match(/\/conversations\/([^/]+)/)?.[1];

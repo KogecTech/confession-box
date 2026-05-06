@@ -1,8 +1,9 @@
 'use client';
 
 import { use, useCallback, useEffect, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useMessages } from '../../../../hooks/useMessages';
+import { useConversations } from '../../../../hooks/useConversations';
 import { useAuth } from '../../../../hooks/useAuth';
 import { useIncomingMessages, usePresence } from '../../../../hooks/useWebSocket';
 import { useWebSocketContext } from '../../../../context/WebSocketContext';
@@ -22,6 +23,8 @@ export default function ConversationPage({ params }: Props) {
   const { userId } = use(params);
   const { user } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { conversations } = useConversations();
   const { send: wsSend, status } = useWebSocketContext();
   const presence = usePresence();
 
@@ -35,10 +38,16 @@ export default function ConversationPage({ params }: Props) {
     appendOptimistic,
   } = useMessages(userId);
 
-  // Derive display name from the first message received from them
+  // Derive display name from: 1. Query param 2. Conversations list 3. Fallback ID
   const recipientName = useMemo(() => {
+    const fromUrl = searchParams.get('name');
+    if (fromUrl) return fromUrl;
+
+    const fromList = conversations.find(c => c.user_id === userId);
+    if (fromList) return fromList.display_name;
+
     return `User ${userId.slice(0, 8)}`;
-  }, [userId]);
+  }, [userId, searchParams, conversations]);
 
   // Wire incoming real-time messages
   const handleIncoming = useCallback((msg: Message) => {
@@ -49,7 +58,9 @@ export default function ConversationPage({ params }: Props) {
 
   // Private key guard — if page reloaded, key is gone, must re-login
   useEffect(() => {
-    if (!getPrivateKey()) router.replace('/login');
+    if (!getPrivateKey()) {
+      router.replace('/login?reason=session_expired');
+    }
   }, [router]);
 
   async function handleSend(plaintext: string) {

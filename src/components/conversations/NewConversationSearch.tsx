@@ -38,8 +38,12 @@ export function NewConversationSearch({ onClose }: Props) {
     return () => document.removeEventListener('keydown', handler);
   }, [onClose]);
 
-  function handleSelect(userId: string) {
-    router.push(`/conversations/${userId}`);
+  function handleSelect(userId: string, displayName: string, username: string) {
+    const params = new URLSearchParams({
+      name: displayName,
+      user: username
+    });
+    router.push(`/conversations/${userId}?${params.toString()}`);
     onClose();
   }
 
@@ -50,7 +54,7 @@ export function NewConversationSearch({ onClose }: Props) {
       onClick={onClose}
     >
       <div
-        className="w-full md:max-w-md rounded-t-[32px] md:rounded-[32px] overflow-hidden animate-slide-up md:animate-fade-in glass-card shadow-2xl border-t md:border border-border/50"
+        className="w-full md:max-w-md rounded-t-4xl md:rounded-4xl overflow-hidden animate-slide-up md:animate-fade-in glass-card shadow-2xl border-t md:border border-border/50"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Handle bar (mobile) */}
@@ -104,7 +108,7 @@ export function NewConversationSearch({ onClose }: Props) {
             {results.map((user) => (
               <button
                 key={user.id}
-                onClick={() => handleSelect(user.id)}
+                onClick={() => handleSelect(user.id, user.display_name, user.username)}
                 className="w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl tap hover:bg-secondary/60 transition-all duration-200 text-left group"
               >
                 <Avatar name={user.display_name} size={48} className="group-hover:scale-105 transition-transform" />

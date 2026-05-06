@@ -1,5 +1,30 @@
+"use client";
+
 import Link from 'next/link';
+import { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { LoginForm } from '../../../components/auth/LoginForm';
+
+function SessionNotice() {
+  const searchParams = useSearchParams();
+  const reason = searchParams.get('reason');
+  
+  if (reason !== 'session_expired') return null
+
+  return (
+    <div className="mb-6 p-4 rounded-2xl bg-primary/10 border border-primary/20 animate-fade-in">
+      <div className="flex items-center gap-3 text-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4"/><path d="M12 16h.01"/>
+        </svg>
+        <p className="text-[13px] font-bold leading-tight">
+          Session Secured & Cleared<br/>
+          <span className="text-[11px] font-medium opacity-80">Reloading clears your private key for safety. Please sign in again.</span>
+        </p>
+      </div>
+    </div>
+  );
+}
 
 export default function LoginPage() {
   return (
@@ -8,7 +33,7 @@ export default function LoginPage() {
       <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px] animate-pulse pointer-events-none" />
       <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="w-full max-w-[400px] relative z-10 animate-fade-in">
+      <div className="w-full max-w-100 relative z-10 animate-fade-in">
         {/* Logo */}
         <div className="flex flex-col items-center gap-5 mb-12">
           <div className="w-20 h-20 rounded-[30px] flex items-center justify-center bg-secondary/30 border border-primary/20 shadow-[0_0_50px_rgba(108,99,255,0.15)] backdrop-blur-md">
@@ -30,7 +55,10 @@ export default function LoginPage() {
         </div>
 
         {/* Card */}
-        <div className="rounded-[32px] p-8 glass-card shadow-2xl shadow-black/20">
+        <div className="rounded-4xl p-8 glass-card shadow-2xl shadow-black/20">
+          <Suspense>
+            <SessionNotice />
+          </Suspense>
           <div className="mb-8">
             <h2 className="text-xl font-bold text-foreground">Welcome Back</h2>
             <p className="text-[13px] font-medium text-muted-foreground mt-1">Access your secure, encrypted workspace</p>

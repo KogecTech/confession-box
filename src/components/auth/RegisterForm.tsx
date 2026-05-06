@@ -54,6 +54,9 @@ export function RegisterForm() {
         value={username}
         onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ''))}
         autoComplete="username"
+        autoCorrect="off"
+        autoCapitalize="none"
+        spellCheck={false}
         minLength={3}
         maxLength={32}
         required
